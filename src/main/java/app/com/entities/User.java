@@ -1,6 +1,6 @@
 package app.com.entities;
 
-import app.com.enums.UserRole;
+import app.com.enums.Role;
 //import app.com.interfaces.UserDetails;
 import jakarta.persistence.*;
 //import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +18,7 @@ public class User {
     private String name;
     @Column(name = "email", nullable = false)
     private String email;
-    @Column(name = "password")
+    @Column(name = "password", unique = true)
     private String password;
     @ManyToOne
     @JoinColumn(name = "task_id")
@@ -27,12 +27,11 @@ public class User {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-//    @ElementCollection(targetClass = "UserRole.class")
-//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    @Column(name = "roles")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<UserRole> roles = new HashSet<>();
-
+    @Column(name = "roles")
+    private Set<Role> roles;
 
     @PrePersist
     public void createdAt() {
@@ -49,11 +48,11 @@ public class User {
         return id;
     }
 
-    public Set<UserRole> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<UserRole> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

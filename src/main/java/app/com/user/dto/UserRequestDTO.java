@@ -1,6 +1,6 @@
 package app.com.user.dto;
 
-import app.com.enums.UserRole;
+import app.com.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,13 +18,13 @@ public class UserRequestDTO {
     @NotNull(message = "Task Id field is required")
     private UUID taskId;
     @NotBlank(message = "User role field is required")
-    private Set<UserRole> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
-    public Set<UserRole> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<UserRole> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

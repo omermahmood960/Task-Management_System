@@ -3,9 +3,9 @@ app\com\security\SecurityConfig.class
 app\com\task\dto\TaskResponseDTO.class
 app\com\user\controller\UserController.class
 app\com\entities\User.class
-app\com\enums\UserRole.class
 app\com\user\dto\UserResponseDTO.class
 app\com\config\DatabaseCheckRunner.class
+app\com\enums\Role.class
 app\com\config\DatabaseConfig.class
 app\com\login\service\Impl\LoginServiceImpl.class
 app\com\exceptions\ResourceNotFoundException.class
@@ -18,6 +18,7 @@ app\com\entities\Project.class
 app\com\task\repository\TaskRepository.class
 app\com\project\service\ProjectService.class
 app\com\user\service\UserService.class
+app\com\user\controller\AuthController.class
 app\com\user\mapper\UserMapper.class
 app\com\project\dto\ProjectRequestDTO.class
 async\NotificationExecutor.class
@@ -41,3 +42,4 @@ app\com\project\service\Impl\ProjectServiceImpl.class
 app\com\project\dto\ProjectResponseDTO.class
 app\com\login\controller\LoginController.class
 app\com\login\dto\LoginRequestDto.class
+app\com\security\CustomUserDetailsService.class

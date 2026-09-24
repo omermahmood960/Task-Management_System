@@ -1,7 +1,9 @@
 package app.com.user.controller;
 
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import app.com.user.dto.UserRequestDTO;
 import app.com.user.dto.UserResponseDTO;
@@ -37,7 +39,10 @@ public class UserController {
         UserResponseDTO userResponseDTO = userServiceImp.getUserById(userId);
         return ResponseEntity.ok(userResponseDTO);
     }
-
+    @GetMapping("/profile")
+    public String profile(Authentication authentication) {
+        return "Authenticated as: " + authentication.getName();
+    }
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         List<UserResponseDTO> allUsers = userServiceImp.getAllUsers();

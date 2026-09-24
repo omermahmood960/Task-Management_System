@@ -1,7 +1,6 @@
 package app.com.user.dto;
 
-import app.com.enums.UserRole;
-
+import app.com.enums.Role;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -13,13 +12,13 @@ public class UserResponseDTO {
     private String password;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Set<UserRole> roles;
+    private Set<Role> roles;
 
-    public Set<UserRole> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<UserRole> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
