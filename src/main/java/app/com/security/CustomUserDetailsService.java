@@ -2,11 +2,17 @@ package app.com.security;
 
 import app.com.entities.User;
 import app.com.user.repository.UserRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.BeanDefinitionDsl;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -27,5 +33,4 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .roles(user.getRoles().stream().map(Enum::name).toArray(String[]::new))
                 .build();
     }
-
 }
