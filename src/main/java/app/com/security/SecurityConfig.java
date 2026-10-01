@@ -2,6 +2,7 @@ package app.com.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -56,7 +57,14 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/projects/**").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/api/projects/**").authenticated()
+                                .requestMatchers(HttpMethod.POST,"/api/projects/**").authenticated()
+                                .requestMatchers(HttpMethod.PUT,"/api/projects/**").authenticated()
+                                .requestMatchers(HttpMethod.GET,"/api/tasks/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/api/tasks/**").authenticated()
+                                .requestMatchers(HttpMethod.POST,"/api/tasks/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE,"/api/tasks/**").authenticated()
                                 .anyRequest().permitAll())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
