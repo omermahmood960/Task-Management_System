@@ -58,9 +58,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE,"/api/projects/**").authenticated()
-                                .requestMatchers(HttpMethod.POST,"/api/projects/**").authenticated()
-                                .requestMatchers(HttpMethod.PUT,"/api/projects/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE,"/api/projects/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST,"/api/projects/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PUT,"/api/projects/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/api/tasks/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/api/tasks/**").authenticated()
                                 .requestMatchers(HttpMethod.POST,"/api/tasks/**").authenticated()
