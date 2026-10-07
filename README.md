@@ -44,5 +44,4 @@ The Task Management System is a secure REST API for managing users, projects, an
 
 ### 🔐 Authentication
 - Authentication is implemented with **Spring Security** using **JWT (JSON Web Tokens)**.
-## ⚙️ Getting Started
 
