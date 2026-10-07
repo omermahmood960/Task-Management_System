@@ -1,0 +1,1 @@
+Backend Task Management System built with Java, Spring boot, PostgreSql, Hibernate and Spring Security. The application provides RESTFUL API's for managing users, projects and tasks along with authorization and authentication
