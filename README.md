@@ -1,21 +1,48 @@
-**Backend Task Management System** built with Java, Spring boot, PostgreSql, Hibernate and Spring Security. The application provides RESTFUL API's for managing users, projects and tasks along with authorization and authentication
-🚀 **Project Overview**
-The Task Management System is a Rest API designed to manage users, projects and tasks in a secure way. The project was developed to demonstrate real world java spring boot backend development including REST API development, database integration, exception handling, authentication and authorization
-🛠️ **Technologies Used**
-Java 21
-Maven
-Hibernate
-Spring Boot
-JWT
-PostgreSQL
-Postman
+# Task Management System
 
-✨ **Key Features**
-**Project Management**
-Ony the users with roles of Admin can update, add or delete the project while the other users can view the project. Each project must have unique Id. Name and the description of the project should be mentioned.
-**User Management**
-The user can add his name, email and password and the password should be in hashed format in the database PostgreSQL
-**Tasks Management**
-The user can create and view the tasks. But for updation and deletion of the tasks, firstly tasks ownership will be checked.
-**Authentication**
-Authentication has been implemented using Spring Boot Security JWT-based authentication
+A backend **Task Management System** built with **Java, Spring Boot, PostgreSQL, Hibernate, and Spring Security**. The application provides RESTful APIs for managing users, projects, and tasks, with secure authentication and authorization.
+
+## 🚀 Project Overview
+
+The Task Management System is a secure REST API for managing users, projects, and tasks. It was built to demonstrate real-world Java Spring Boot backend development, including:
+
+- REST API development
+- Database integration
+- Exception handling
+- Authentication and authorization
+
+## 🛠️ Technologies Used
+
+| Technology      | Purpose                          |
+|-----------------|----------------------------------|
+| Java 21         | Programming language             |
+| Spring Boot     | Backend framework                |
+| Spring Security | Authentication and authorization |
+| JWT             | Token-based authentication       |
+| Hibernate       | ORM (object-relational mapping)  |
+| PostgreSQL      | Database                         |
+| Maven           | Build and dependency management  |
+| Postman         | API testing                      |
+
+---
+
+## ✨ Key Features
+
+### 📁 Project Management
+- Only users with the **Admin** role can add, update, or delete projects.
+- All other users can view projects.
+- Each project has a unique ID.
+- Every project must have a name and a description.
+
+### 👤 User Management
+- Users can register with their name, email, and password.
+- Passwords are stored in **hashed format** in the PostgreSQL database.
+
+### ✅ Task Management
+- Users can create and view tasks.
+- Before a task is updated or deleted, **task ownership is verified**.
+
+### 🔐 Authentication
+- Authentication is implemented with **Spring Security** using **JWT (JSON Web Tokens)**.
+## ⚙️ Getting Started
+
