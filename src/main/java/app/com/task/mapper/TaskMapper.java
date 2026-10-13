@@ -2,6 +2,7 @@ package app.com.task.mapper;
 
 import app.com.entities.Project;
 import app.com.entities.Task;
+import app.com.entities.User;
 import app.com.enums.TaskPriority;
 import app.com.enums.TaskStatus;
 import app.com.task.dto.TaskRequestDTO;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Component
 public class TaskMapper {
 
-    public Task mapToEntity(TaskRequestDTO taskRequestDTO, Project project) {
+    public Task mapToEntity(TaskRequestDTO taskRequestDTO, Project project, User authenticatedUser) {
         Task task = new Task();
         task.setTitle(taskRequestDTO.getTitle());
         task.setDescription(taskRequestDTO.getDescription());
@@ -21,6 +22,7 @@ public class TaskMapper {
         task.setPriority(taskRequestDTO.getPriority());
         task.setProject(project);
         task.setDueDate(taskRequestDTO.getDueDate());
+        task.setCreatedBy(authenticatedUser);
         return task;
     }
 

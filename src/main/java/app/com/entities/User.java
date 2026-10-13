@@ -18,9 +18,9 @@ public class User implements UserDetails {
     private UUID id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "password", unique = true)
+    @Column(name = "password" )
     private String password;
     @ManyToOne
     @JoinColumn(name = "task_id")

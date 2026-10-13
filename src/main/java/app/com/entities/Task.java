@@ -37,16 +37,16 @@ public class Task {
     private LocalDateTime updatedAt;
     @Column(name = "due_Date")
     private LocalDate dueDate;
-    @ManyToOne
-    @JoinColumn(name = "assigned_user_id")
-    private User assignedUser;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "created_by", nullable = false)
+    private User createdBy;
 
-    public User getAssignedUser() {
-        return assignedUser;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setAssignedUser(User assignedUser) {
-        this.assignedUser = assignedUser;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
     @PrePersist

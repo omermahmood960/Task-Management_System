@@ -6,12 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ProjectRequestDTO {
-    @NotBlank(message = "Project name is required")
     @Size(min = 5, max = 50)
     private String name;
-    @NotBlank(message = "Project Description is essential")
+    @Size(min = 10, max = 500)
     private String description;
-    @NotNull(message = "Project status is mandatory")
     private ProjectStatus status;
 
     public String getName() {

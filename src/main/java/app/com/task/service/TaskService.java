@@ -1,5 +1,6 @@
 package app.com.task.service;
 
+import app.com.entities.User;
 import app.com.task.dto.TaskRequestDTO;
 import app.com.task.dto.TaskResponseDTO;
 
@@ -12,4 +13,5 @@ public interface TaskService {
     TaskResponseDTO getTaskById(UUID taskId);
     TaskResponseDTO updateTaskById(TaskRequestDTO taskRequestDTO, UUID taskId);
     void deleteTaskById(UUID taskId);
+    User getAuthenticatedUser();
 }

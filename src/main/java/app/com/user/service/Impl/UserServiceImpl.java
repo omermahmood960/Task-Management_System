@@ -32,7 +32,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
-        Task ExistedTask = this.taskRepository.findById(userRequestDTO.getTaskId()).orElseThrow(() -> new ResourceNotFoundException("Can't create a user as the requested Task doesn't exist"));
+        Task ExistedTask = null;
+        if (userRequestDTO.getTaskId() != null) {
+            ExistedTask = this.taskRepository.findById(userRequestDTO.getTaskId()).orElseThrow(() -> new ResourceNotFoundException("Can't create a user as the requested Task doesn't exist"));
+        }
         User user = this.userMapper.mapToEntity(userRequestDTO, ExistedTask);
         User createdUser = this.userRepository.save(user);
         return this.userMapper.mapToDTO(createdUser);

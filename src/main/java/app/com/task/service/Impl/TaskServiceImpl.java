@@ -5,16 +5,19 @@ import app.com.entities.Task;
 import app.com.entities.User;
 import app.com.exceptions.ResourceNotFoundException;
 import app.com.project.repository.ProjectRepository;
+import app.com.security.JWTService;
 import app.com.task.dto.TaskRequestDTO;
 import app.com.task.dto.TaskResponseDTO;
 import app.com.task.mapper.TaskMapper;
 import app.com.task.repository.TaskRepository;
 import app.com.task.service.TaskService;
 import app.com.user.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
@@ -33,32 +36,28 @@ public class TaskServiceImpl implements TaskService {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
     }
-    public User getLoggedInUser() {
+    @Override
+    public User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return userRepository.findByEmail(email).orElseThrow(() ->
-                new RuntimeException("User Not found"));
-    }
-    private void checkTaskOwnership(User loggedInUser, Task task) throws AccessDeniedException {
-        if (task.getAssignedUser() == null) {
-            throw new AccessDeniedException("Task is not assigned to any user");
-        }
-        if (!task.getAssignedUser().getId().equals(loggedInUser.getId())) {
-            throw new AccessDeniedException("You are not authorized to access this task");
-        }
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.UNAUTHORIZED,
+                                "Authenticated user not found"
+                        )
+                );
     }
     @Override
     public TaskResponseDTO updateTaskById(TaskRequestDTO taskRequestDTO, UUID taskId) {
         Project existedProject = null;
         Task existingTask = this.taskRepository.findById(taskId).orElseThrow(() -> new ResourceNotFoundException("The task doesn't exist with that id"));
+        if (!taskOwnedByUser(existingTask)) {
+            throw new ResponseStatusException( HttpStatus.FORBIDDEN,
+                    "You are not allowed to update this task");
+        }
         if (taskRequestDTO.getProjectId() != null) {
             existedProject = this.projectRepository.findById(taskRequestDTO.getProjectId()).orElseThrow(() -> new ResourceNotFoundException("Can't update the task"));
-        }
-        User loggedInUser = getLoggedInUser();
-        try {
-            checkTaskOwnership(loggedInUser, existingTask);
-        } catch (AccessDeniedException e) {
-            throw new RuntimeException(e);
         }
         Task taskToUpdate = this.taskMapper.mapToEntityForUpdate(taskRequestDTO, existingTask, existedProject);
         Task updatedTask = this.taskRepository.save(taskToUpdate);
@@ -68,8 +67,9 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Override
     public TaskResponseDTO createTask(TaskRequestDTO taskRequestDTO) {
+        User authenticatedUser = getAuthenticatedUser();
         Project project = this.projectRepository.findById(taskRequestDTO.getProjectId()).orElseThrow(() -> new ResourceNotFoundException("Can't create a task as the project doesn't exist "));
-        Task taskToCreate = this.taskMapper.mapToEntity(taskRequestDTO, project);
+        Task taskToCreate = this.taskMapper.mapToEntity(taskRequestDTO, project, authenticatedUser);
         Task createdTask = this.taskRepository.save(taskToCreate);
         return taskMapper.mapToDto(createdTask);
     }
@@ -91,13 +91,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTaskById(UUID taskId) {
         Task task = this.taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task doesn't exist"));
-        User loggedInUser = getLoggedInUser();
-        try {
-            checkTaskOwnership(loggedInUser, task);
-        } catch (AccessDeniedException e) {
-            throw new RuntimeException(e);
+        if (!taskOwnedByUser(task)) {
+            throw new ResponseStatusException( HttpStatus.FORBIDDEN,
+                    "You are not allowed to delete this task");
         }
         this.taskRepository.deleteById(taskId);
-
+    }
+    public boolean taskOwnedByUser(Task task) {
+        return task.getCreatedBy().getId().equals(getAuthenticatedUser().getId());
     }
 }

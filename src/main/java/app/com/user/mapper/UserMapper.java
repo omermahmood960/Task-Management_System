@@ -24,7 +24,9 @@ public class UserMapper {
         user.setName(userRequestDTO.getName());
         String hashedPassword = passwordEncoder.encode(userRequestDTO.getPassword());
         user.setPassword(hashedPassword);
-        user.setTask(task);
+        if (userRequestDTO.getTaskId() != null) {
+            user.setTask(task);
+        }
         user.setRoles(userRequestDTO.getRoles());
         return user;
     }
@@ -57,7 +59,9 @@ public class UserMapper {
         userResponseDTO.setPassword(user.getPassword());
         userResponseDTO.setCreatedAt(user.getCreatedAt());
         userResponseDTO.setUpdatedAt(user.getUpdatedAt());
-        userResponseDTO.setId(user.getTask().getId());
+        if (user.getTask() != null) {
+            userResponseDTO.setId(user.getTask().getId());
+        }
         userResponseDTO.setRoles(user.getRoles());
         return userResponseDTO;
     }

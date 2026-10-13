@@ -15,7 +15,6 @@ public class UserRequestDTO {
     private String email;
     @NotBlank(message = "Password field is required")
     private String password;
-    @NotNull(message = "Task Id field is required")
     private UUID taskId;
     @NotBlank(message = "User role field is required")
     private Set<Role> roles = new HashSet<>();
